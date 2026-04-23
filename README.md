@@ -53,3 +53,21 @@ Production-ready, mobile-first Next.js ministry platform blending public ministr
 4. `npm run prisma:migrate`
 5. `npm run prisma:seed`
 6. `npm run dev`
+
+## Railway deployment (Next.js + Prisma)
+1. Create a new Railway project and connect this GitHub repository.
+2. Add a **Postgres** plugin in Railway.
+3. Set environment variables in Railway:
+   - `DATABASE_URL` (from the Railway Postgres service)
+   - `NEXTAUTH_SECRET`
+   - `NEXTAUTH_URL` (your Railway public app URL)
+   - any optional links (`VENMO_URL`, `CASHAPP_URL`, `FACEBOOK_URL`) and admin credentials.
+4. Deploy from GitHub (Railway will use `railway.toml` + `npm run start`).
+5. Run Prisma deployment command after deploy:
+   - Standard (when migrations exist): `npm run prisma:deploy`
+   - First launch with no migrations yet: `npm run prisma:deploy:safe` (falls back to `db push`).
+
+### Notes
+- Runtime binds to `0.0.0.0` and respects Railway's `PORT` variable via the start script.
+- Prisma is configured for PostgreSQL and reads `DATABASE_URL` from environment variables.
+

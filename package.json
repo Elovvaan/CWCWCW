@@ -4,12 +4,16 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "build": "prisma generate && next build",
+    "start": "next start -H 0.0.0.0",
     "lint": "next lint",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
-    "prisma:seed": "tsx prisma/seed.ts"
+    "prisma:seed": "tsx prisma/seed.ts",
+    "postinstall": "prisma generate",
+    "prisma:deploy": "prisma migrate deploy",
+    "db:push": "prisma db push",
+    "prisma:deploy:safe": "prisma migrate deploy || prisma db push"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
