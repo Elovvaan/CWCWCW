@@ -1,0 +1,181 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model AdminUser {
+  id          String   @id @default(cuid())
+  name        String
+  email       String   @unique
+  passwordHash String
+  role        String   @default("admin")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Event {
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  title         String
+  type          String
+  date          DateTime
+  time          String
+  location      String
+  description   String
+  imageUrl      String?
+  isPaid        Boolean  @default(false)
+  featured      Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  registrations EventRegistration[]
+}
+
+model EventRegistration {
+  id        String   @id @default(cuid())
+  eventId   String
+  name      String
+  email     String
+  phone     String?
+  reminderOptIn Boolean @default(true)
+  createdAt DateTime @default(now())
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+}
+
+model PrayerRequest {
+  id                String   @id @default(cuid())
+  name              String?
+  contact           String?
+  request           String
+  isPublic          Boolean  @default(false)
+  isPrivate         Boolean  @default(true)
+  followUpRequested Boolean  @default(false)
+  urgent            Boolean  @default(false)
+  status            String   @default("pending")
+  assignedTo        String?
+  createdAt         DateTime @default(now())
+}
+
+model JoinRequest {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  notes     String?
+  status    String   @default("new")
+  createdAt DateTime @default(now())
+}
+
+model VolunteerApplication {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  notes     String?
+  status    String   @default("new")
+  createdAt DateTime @default(now())
+}
+
+model MentorApplication {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  notes     String?
+  status    String   @default("new")
+  createdAt DateTime @default(now())
+}
+
+model Donation {
+  id          String   @id @default(cuid())
+  amount      Float
+  method      String
+  campaignId  String?
+  donorName   String?
+  donorEmail  String?
+  followUpNeeded Boolean @default(false)
+  createdAt   DateTime @default(now())
+}
+
+model DonationCampaign {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  cause       String
+  targetAmount Float?
+  active      Boolean  @default(true)
+}
+
+model ReminderSubscription {
+  id                     String   @id @default(cuid())
+  name                   String
+  phone                  String?
+  email                  String?
+  prayerUpdates          Boolean  @default(true)
+  eventReminders         Boolean  @default(true)
+  volunteerOpportunities Boolean  @default(false)
+  createdAt              DateTime @default(now())
+}
+
+model Reminder {
+  id            String   @id @default(cuid())
+  title         String
+  details       String?
+  dueAt         DateTime
+  type          String
+  status        String   @default("pending")
+  channel       String   @default("in_app")
+  automationKey String?
+  createdAt     DateTime @default(now())
+}
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  name      String
+  content   String
+  featured  Boolean  @default(false)
+}
+
+model GalleryItem {
+  id          String   @id @default(cuid())
+  title       String
+  type        String
+  category    String
+  mediaUrl    String
+  featured    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+
+model SiteSetting {
+  id    String @id @default(cuid())
+  key   String @unique
+  value String
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  message   String
+  createdAt DateTime @default(now())
+}
+
+model FundingOpportunity {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  status      String   @default("idea")
+  dueDate     DateTime?
+}
+
+model ActivityLog {
+  id          String   @id @default(cuid())
+  actor       String
+  action      String
+  entity      String
+  entityId    String?
+  metadata    String?
+  createdAt   DateTime @default(now())
+}

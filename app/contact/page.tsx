@@ -1,0 +1,3 @@
+export default function ContactPage() {
+  return <section className="section-shell"><div className="card"><h1 className="text-4xl">Contact</h1><p className="mt-2">Email: hello@cwconnectwomen.org</p><p>Facebook Group: facebook.com/cwconnectwomen</p><p>Location: Shared privately for prayer gatherings.</p><form className="mt-4 grid gap-3"><input className="rounded-xl border p-3" placeholder="Name"/><input className="rounded-xl border p-3" placeholder="Email"/><textarea className="rounded-xl border p-3" placeholder="Message"/><button className="btn-primary">Send Message</button></form></div></section>;
+}

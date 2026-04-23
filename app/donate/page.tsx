@@ -1,0 +1,4 @@
+export default function DonatePage() {
+  const causes = ["outreach", "events", "giveaways", "prayer ministry", "retreat support", "women in need"];
+  return <section className="section-shell"><div className="card"><h1 className="text-4xl">Donate</h1><p className="mt-3 text-slate-600">Your generosity supports prayer gatherings, women events, outreach, and spiritual growth.</p><div className="mt-4 flex flex-wrap gap-2">{causes.map((c)=><span key={c} className="rounded-full bg-sage/10 px-3 py-1 text-sm">{c}</span>)}</div><div className="mt-6 flex flex-wrap gap-3"><button className="btn-primary">Give with Venmo</button><button className="btn-secondary">Give with Cash App</button><button className="btn-secondary">Become a Monthly Partner</button><button className="btn-primary">Support the Mission</button></div></div></section>;
+}
