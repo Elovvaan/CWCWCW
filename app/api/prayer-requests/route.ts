@@ -51,20 +51,45 @@ function resolveVisibilityFlags(data: {
 export async function POST(req: NextRequest) {
   const data = await req.json();
   const visibility = resolveVisibilityFlags(data);
+import { z } from "zod";
+import { prisma } from "@/lib/prisma";
+import { ok } from "@/lib/api";
 
-  if ("error" in visibility) {
-    return Response.json({ error: visibility.error }, { status: 400 });
+const prayerRequestSchema = z.object({
+  name: z.string().trim().min(1),
+  contact: z.string().trim().min(1),
+  request: z.string().trim().min(1),
+  isPublic: z.boolean().optional().default(false),
+  isPrivate: z.boolean().optional().default(false),
+  urgent: z.boolean().optional().default(false),
+  followUpRequested: z.boolean().optional().default(false)
+});
+
+export async function POST(req: NextRequest) {
+  const body = await req.json();
+  const result = prayerRequestSchema.safeParse(body);
+
+  if (!result.success) {
+    return Response.json(
+      {
+        error: "Invalid prayer request payload.",
+        details: result.error.flatten()
+      },
+      { status: 400 }
+    );
   }
+
+  const data = result.data;
 
   await prisma.prayerRequest.create({
     data: {
       name: data.name,
       contact: data.contact,
       request: data.request,
-      isPublic: visibility.isPublic,
-      isPrivate: visibility.isPrivate,
-      urgent: Boolean(data.urgent),
-      followUpRequested: Boolean(data.followUpRequested)
+      isPublic: data.isPublic,
+      isPrivate: data.isPrivate,
+      urgent: data.urgent,
+      followUpRequested: data.followUpRequested
     }
   });
   return ok("Prayer request submitted.");
