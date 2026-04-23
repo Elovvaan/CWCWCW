@@ -34,9 +34,9 @@ export async function POST(req: NextRequest) {
       secure: process.env.NODE_ENV === "production",
       path: "/",
       maxAge: ADMIN_SESSION_MAX_AGE_SECONDS,
-      expires,
-    });
+    const response = NextResponse.redirect(new URL("/admin/dashboard", req.url), 303);
+    response.cookies.set("admin_session", "active", { httpOnly: true, sameSite: "lax", secure: process.env.NODE_ENV === "production", path: "/" });
     return response;
   }
-  return NextResponse.redirect(new URL("/admin/login", req.url));
+  return NextResponse.redirect(new URL("/admin/login", req.url), 303);
 }
