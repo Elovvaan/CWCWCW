@@ -1,0 +1,5 @@
+import { PrayerCompanionPanel } from "@/components/agents/prayer-companion";
+
+export default function PrayerRequestsPage() {
+  return <section className="section-shell grid gap-4 md:grid-cols-[2fr_1fr]"><div className="card"><h1 className="text-4xl">Prayer Requests</h1><p className="mt-2 text-slate-600">Submit your prayer request and we will stand with you.</p><form className="mt-4 grid gap-3"><input className="rounded-xl border p-3" placeholder="Name"/><input className="rounded-xl border p-3" placeholder="Email or Phone"/><textarea className="rounded-xl border p-3" placeholder="Your prayer request"/><label className="text-sm"><input type="checkbox" className="mr-2"/>Public request</label><label className="text-sm"><input type="checkbox" className="mr-2"/>Private request</label><label className="text-sm"><input type="checkbox" className="mr-2"/>Request follow-up</label><label className="text-sm"><input type="checkbox" className="mr-2"/>Urgent prayer</label><button className="btn-primary">Request Prayer</button></form></div><PrayerCompanionPanel /></section>;
+}

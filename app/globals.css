@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  @apply bg-cream text-slate-800 font-sans;
+  background-image: radial-gradient(circle at top right, rgba(245, 216, 229, 0.35), transparent 40%), radial-gradient(circle at bottom left, rgba(143, 175, 155, 0.2), transparent 35%);
+}
+
+h1, h2, h3, h4 {
+  @apply font-serif text-slate-900;
+}
+
+.section-shell {
+  @apply mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 lg:px-8;
+}
+
+.card {
+  @apply rounded-2xl bg-white p-6 shadow-soft;
+}
+
+.btn-primary {
+  @apply rounded-full bg-sage px-5 py-3 font-semibold text-white transition hover:brightness-95;
+}
+
+.btn-secondary {
+  @apply rounded-full border border-sage px-5 py-3 font-semibold text-sage transition hover:bg-sage/10;
+}
