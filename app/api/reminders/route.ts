@@ -51,11 +51,15 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid payload.", details: parsed.error.flatten() }, { status: 400 });
     }
     const { title, details, dueAt, type, status, channel, automationKey } = parsed.data;
+    const dueAtDate = new Date(dueAt);
+    if (Number.isNaN(dueAtDate.getTime())) {
+      return NextResponse.json({ error: "Invalid dueAt." }, { status: 400 });
+    }
     await prisma.reminder.create({
       data: {
         title,
         details: details || null,
-        dueAt: new Date(dueAt),
+        dueAt: dueAtDate,
         type,
         status: status ?? "pending",
         channel: channel ?? "in_app",
