@@ -1,17 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { prisma } from '@/lib/prisma'
-import { ok } from '@/lib/api'
 
-const prayerRequestSchema = z.object({
-  name: z.string().trim().min(1, 'Name is required'),
-  contact: z.string().trim().min(1, 'Contact is required'),
-  request: z.string().trim().min(1, 'Prayer request is required'),
-  isPublic: z.boolean().optional().default(false),
-  isPrivate: z.boolean().optional().default(true),
-  urgent: z.boolean().optional().default(false),
-  followUpRequested: z.boolean().optional().default(false),
-})
+const prayerRequestSchema = z
+  .object({
+    name: z.string().trim().min(1).optional(),
+    contact: z.string().trim().min(1).optional(),
+    request: z.string().trim().min(1),
+    isPublic: z.boolean().optional(),
+    isPrivate: z.boolean().optional(),
+    followUpRequested: z.boolean().optional(),
+    urgent: z.boolean().optional(),
+  })
+  .superRefine((data, ctx) => {
+    if (data.isPublic !== undefined && data.isPrivate !== undefined && data.isPublic === data.isPrivate) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['isPublic'],
+        message: 'isPublic and isPrivate must be opposite boolean values.',
+      })
+    }
+  })
 
 export async function POST(req: NextRequest) {
   try {
@@ -29,29 +38,29 @@ export async function POST(req: NextRequest) {
     }
 
     const data = parsed.data
-    const isPublic = data.isPublic
+
+    const isPublic = data.isPublic ?? false
     const isPrivate = data.isPrivate ?? !isPublic
 
-    if (isPublic === isPrivate) {
-      return NextResponse.json(
-        { error: 'isPublic and isPrivate must be opposite boolean values.' },
-        { status: 400 }
-      )
-    }
-
-    await prisma.prayerRequest.create({
+    const created = await prisma.prayerRequest.create({
       data: {
         name: data.name,
         contact: data.contact,
         request: data.request,
         isPublic,
         isPrivate,
-        urgent: data.urgent,
-        followUpRequested: data.followUpRequested,
+        followUpRequested: data.followUpRequested ?? false,
+        urgent: data.urgent ?? false,
       },
     })
 
-    return ok('Prayer request submitted.')
+    return NextResponse.json(
+      {
+        message: 'Prayer request submitted successfully.',
+        data: created,
+      },
+      { status: 201 }
+    )
   } catch (error) {
     console.error('Failed to submit prayer request:', error)
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
