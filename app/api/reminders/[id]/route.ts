@@ -26,8 +26,13 @@ export async function PATCH(req: NextRequest, { params }: Params) {
 
     const { dueAt, ...rest } = parsed.data;
     const data: Record<string, unknown> = { ...rest };
-    if (dueAt) data.dueAt = new Date(dueAt);
-
+    if (dueAt) {
+      const dueAtDate = new Date(dueAt);
+      if (Number.isNaN(dueAtDate.getTime())) {
+        return NextResponse.json({ error: "Invalid dueAt." }, { status: 400 });
+      }
+      data.dueAt = dueAtDate;
+    }
     const updated = await prisma.reminder.update({ where: { id }, data });
     return NextResponse.json({ success: true, data: updated });
   } catch (error) {
