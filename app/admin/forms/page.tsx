@@ -13,7 +13,7 @@ export default async function FormsAdminPage() {
 
   return (
     <div className="space-y-8">
-      <h1 className="text-3xl">Forms &amp; Applications</h1>
+      <h1 className="text-3xl">Forms & Applications</h1>
 
       {/* Volunteer Applications */}
       <section>

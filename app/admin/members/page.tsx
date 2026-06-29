@@ -12,7 +12,7 @@ export default async function MembersAdminPage() {
 
   return (
     <div className="space-y-8">
-      <h1 className="text-3xl">Members &amp; Leads</h1>
+      <h1 className="text-3xl">Members & Leads</h1>
 
       {/* Join Requests */}
       <section>

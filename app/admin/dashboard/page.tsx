@@ -58,7 +58,7 @@ export default async function AdminDashboard() {
           <ul className="mt-2 space-y-1 text-sm text-slate-600">
             {recentActivity.map((log) => (
               <li key={log.id}>
-                <span className="font-medium">{log.actor}</span> &mdash; {log.action} on {log.entity}
+                <span className="font-medium">{log.actor}</span>{" - "}{log.action} on {log.entity}
                 {log.entityId ? ` (${log.entityId})` : ""}
               </li>
             ))}

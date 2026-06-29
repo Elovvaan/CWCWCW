@@ -68,7 +68,7 @@ export default async function RemindersAdminPage() {
               <div key={r.id} className="card flex items-center justify-between gap-2 py-2 opacity-60">
                 <div>
                   <p className="text-sm font-medium">{r.title}</p>
-                  <p className="text-xs text-slate-400">{format(r.dueAt, "PPp")} &bull; {r.type} &bull; {r.status}</p>
+                  <p className="text-xs text-slate-400">{format(r.dueAt, "PPp")} | {r.type} | {r.status}</p>
                 </div>
               </div>
             ))}
@@ -88,7 +88,7 @@ function ReminderList({ items }: { items: { id: string; title: string; details: 
             <div>
               <p className="font-medium">{r.title}</p>
               {r.details && <p className="text-sm text-slate-600">{r.details}</p>}
-              <p className="text-xs text-slate-400">{format(r.dueAt, "PPp")} • {r.type} • {r.channel}</p>
+              <p className="text-xs text-slate-400">{format(r.dueAt, "PPp")} | {r.type} | {r.channel}</p>
             </div>
             <span className="rounded-full bg-yellow-100 px-2 py-0.5 text-xs text-yellow-700">{r.status}</span>
           </div>
