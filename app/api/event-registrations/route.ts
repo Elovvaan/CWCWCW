@@ -38,8 +38,10 @@ export async function POST(req: NextRequest) {
         if (!staticEvent) {
           return NextResponse.json({ error: "Event not found." }, { status: 404 });
         }
-        event = await prisma.event.create({
-          data: {
+        event = await prisma.event.upsert({
+          where: { slug: staticEvent.slug },
+          update: {},
+          create: {
             slug: staticEvent.slug,
             title: staticEvent.title,
             type: staticEvent.category,
