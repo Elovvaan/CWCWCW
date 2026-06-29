@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { format } from "date-fns";
-import { markReminderComplete, markReminderSnoozed } from "../actions";
+import { markReminderComplete, markReminderSnoozed } from "@/app/admin/actions";
 
 export const dynamic = "force-dynamic";
 

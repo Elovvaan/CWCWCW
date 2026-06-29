@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { format } from "date-fns";
-import { markVolunteerReviewed, markMentorReviewed } from "../actions";
+import { markVolunteerReviewed, markMentorReviewed } from "@/app/admin/actions";
 
 export const dynamic = "force-dynamic";
 

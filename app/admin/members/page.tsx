@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { format } from "date-fns";
-import { markJoinRequestContacted } from "../actions";
+import { markJoinRequestContacted } from "@/app/admin/actions";
 
 export const dynamic = "force-dynamic";
 

@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { format } from "date-fns";
-import { markPrayerRequestReviewed, setPrayerRequestUrgent } from "../actions";
+import { markPrayerRequestReviewed, setPrayerRequestUrgent } from "@/app/admin/actions";
 
 export const dynamic = "force-dynamic";
 
