@@ -18,7 +18,11 @@ export async function middleware(request: NextRequest) {
     }
 
     try {
-      await jwtVerify(token, new TextEncoder().encode(secret));
+      const { payload } = await jwtVerify(token, new TextEncoder().encode(secret), {
+        algorithms: ["HS256"],
+        subject: "admin",
+      });
+      if (payload.role !== "admin") throw new Error("Invalid admin session.");
     } catch {
       const response = NextResponse.redirect(new URL("/admin/login", request.url));
       response.cookies.delete("admin_session");
