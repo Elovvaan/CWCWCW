@@ -5,7 +5,7 @@ import { markReminderComplete, markReminderSnoozed } from "../actions";
 export const dynamic = "force-dynamic";
 
 export default async function UpperRoomAdminPage() {
-  const [subscriptions, followUps] = await Promise.all([
+  const [subscriptions, upperRoomFollowUps] = await Promise.all([
     prisma.reminderSubscription.findMany({
       orderBy: { createdAt: "desc" },
     }),
@@ -44,13 +44,13 @@ export default async function UpperRoomAdminPage() {
 
       {/* Upper Room Follow-Up Reminders */}
       <section>
-        <h2 className="mb-3 text-2xl">Upper Room Follow-Up Reminders ({followUps.length})</h2>
+        <h2 className="mb-3 text-2xl">Upper Room Follow-Up Reminders ({upperRoomFollowUps.length})</h2>
         <p className="mb-2 text-sm text-slate-500">
           Auto-created when someone signs up for Upper Room reminders on the website.
         </p>
-        {followUps.length === 0 && <p className="text-sm text-slate-500">No follow-up reminders yet.</p>}
+        {upperRoomFollowUps.length === 0 && <p className="text-sm text-slate-500">No follow-up reminders yet.</p>}
         <div className="space-y-3">
-          {followUps.map((r) => (
+          {upperRoomFollowUps.map((r) => (
             <div key={r.id} className="card space-y-2">
               <div className="flex flex-wrap items-start justify-between gap-2">
                 <div>
