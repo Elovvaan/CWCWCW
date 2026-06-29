@@ -27,6 +27,9 @@ export async function PATCH(req: NextRequest, { params }: Params) {
     });
     return NextResponse.json({ success: true, data: updated });
   } catch (error) {
+    if (typeof error === "object" && error && "code" in error && (error as any).code === "P2025") {
+      return NextResponse.json({ error: "Mentor application not found." }, { status: 404 });
+    }
     console.error("Failed to update mentor application:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
