@@ -10,8 +10,11 @@ export async function verifyAdminSession(req: NextRequest): Promise<boolean> {
   if (!secret) return false;
 
   try {
-    await jwtVerify(token, new TextEncoder().encode(secret));
-    return true;
+    const { payload } = await jwtVerify(token, new TextEncoder().encode(secret), {
+      algorithms: ["HS256"],
+      subject: "admin",
+    });
+    return payload.role === "admin";
   } catch {
     return false;
   }
