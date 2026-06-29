@@ -31,6 +31,10 @@ export async function POST(req: NextRequest) {
   const email = normalizeEmail(data.email);
   const phone = normalizePhone(data.phone);
 
+  if (!name) {
+    return Response.json({ error: "Name is required." }, { status: 400 });
+  }
+
   if (email === null) {
     return Response.json({ error: "Please provide a valid email address." }, { status: 400 });
   }
@@ -53,5 +57,6 @@ export async function POST(req: NextRequest) {
       volunteerOpportunities: !!data.volunteerOpportunities,
     },
   });
+
   return ok("Reminder preferences saved.");
 }
