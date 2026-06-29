@@ -27,6 +27,9 @@ export async function PATCH(req: NextRequest, { params }: Params) {
     });
     return NextResponse.json({ success: true, data: updated });
   } catch (error) {
+    if (typeof error === "object" && error && "code" in error && (error as any).code === "P2025") {
+      return NextResponse.json({ error: "Join request not found." }, { status: 404 });
+    }
     console.error("Failed to update join request:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
